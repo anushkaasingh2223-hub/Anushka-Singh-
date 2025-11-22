@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Editkaro.in</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem 5% 4rem;
+        }
+
+        /* Header Logo Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #b8b8d1;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        /* Cute Animation under tagline */
+        .animation-sparkles {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .sparkle {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            animation: sparkleRotate 3s infinite ease-in-out;
+        }
+
+        .sparkle::before,
+        .sparkle::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .sparkle::before {
+            width: 20px;
+            height: 4px;
+            top: 8px;
+            left: 0;
+        }
+
+        .sparkle::after {
+            width: 4px;
+            height: 20px;
+            top: 0;
+            left: 8px;
+        }
+
+        .sparkle:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .sparkle:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes sparkleRotate {
+            0%, 100% {
+                transform: rotate(0deg) scale(0.8);
+                opacity: 0.6;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .portfolio-item .video-thumbnail {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        .portfolio-item video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.4s;
+        }
+
+        .portfolio-item:hover .video-thumbnail {
+            opacity: 0;
+        }
+
+        .portfolio-item:hover video {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .portfolio-item:hover .play-overlay {
+            opacity: 0.7;
+        }
+
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .portfolio-item:hover .play-icon {
+            transform: scale(1.1);
+            background: rgba(102, 126, 234, 1);
+        }
+
+        .play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .portfolio-info {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .portfolio-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #b8b8d1;
+            text-transform: capitalize;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 5% 3rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .filter-buttons {
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Logo Section -->
+    <div class="header-section">
+        <div class="logo">Editkaro.in</div>
+        <p class="tagline">Where Every Frame Finds Its Magic</p>
+        <div class="animation-sparkles">
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+        </div>
+    </div>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio">
+        <h2 class="section-title">Portfolio</h2>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="short-form">Short-Form</button>
+            <button class="filter-btn" data-filter="long-form">Long-Form</button>
+            <button class="filter-btn" data-filter="gaming">Gaming</button>
+            <button class="filter-btn" data-filter="color-grading">Color Grading</button>
+            <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+            <button class="filter-btn" data-filter="anime">Anime</button>
+            <button class="filter-btn" data-filter="football">Football</button>
+            <button class="filter-btn" data-filter="documentary">Documentary</button>
+            <button class="filter-btn" data-filter="ads">Ads</button>
+        </div>
+        
+        <div class="portfolio-grid" id="portfolioGrid">
+            <!-- Portfolio items will be added by JavaScript -->
+        </div>
+    </section>
+
+    <script>
+        // Portfolio data with video previews and thumbnails
+        const portfolioData = [
+            {
+                category: 'short-form', 
+                title: 'Instagram Reel - Fashion', 
+                thumbnail: 'https://images.unsplash.com/photo-1485230405346-71acb9518d9c?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            },
+            {
+                category: 'short-form', 
+                title: 'Social Media - Dance Edit', 
+                thumbnail: 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                video: 'https://www.youtube.com/watch?v=9bZkp7q19f0'
+            },
+            {
+                category: 'long-form', 
+                title: 'YouTube Documentary', 
+                thumbnail: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+                video: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
+            },
+            {
+                category: 'long-form', 
+                title: 'Corporate Presentation', 
+                thumbnail: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+                video: 'https://www.youtube.com/watch?v=yPYZpwSpKmA'
+            },
+            {
+                category: 'gaming', 
+                title: 'Gaming Montage - FPS', 
+                thumbnail: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+                video: 'https://www.youtube.com/watch?v=8UVNT4wvIGY'
+            },
+            {
+                category: 'gaming', 
+                title: 'Esports Highlight Reel', 
+                thumbnail: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+                video: 'https://www.youtube.com/watch?v=ZZ5LpwO-An4'
+            },
+            {
+                category: 'color-grading', 
+                title: 'Cinematic Color Grade', 
+                thumbnail: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+                video: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ'
+            },
+            {
+                category: 'color-grading', 
+                title: 'Moody Color Correction', 
+                thumbnail: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+                video: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ'
+            },
+            {
+                category: 'ecommerce', 
+                title: 'Product Advertisement', 
+                thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
+                video: 'https://www.youtube.com/watch?v=hT_nvWreIhg'
+            },
+            {
+                category: 'ecommerce', 
+                title: 'E-Commerce Promo', 
+                thumbnail: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+                video: 'https://www.youtube.com/watch?v=hT_nvWreIhg'
+            },
+            {
+                category: 'anime', 
+                title: 'Anime AMV Edit', 
+                thumbnail: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4',
+                video: 'https://www.youtube.com/watch?v=OFjqEexH0Tg'
+            },
+            {
+                category: 'anime', 
+                title: 'Anime Opening Style', 
+                thumbnail: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                video: 'https://www.youtube.com/watch?v=OFjqEexH0Tg'
+            },
+            {
+                category: 'football', 
+                title: 'Football Skills Compilation', 
+                thumbnail: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                video: 'https://www.youtube.com/watch?v=JP9CZ8Vmlnw'
+            },
+            {
+                category: 'football', 
+                title: 'Match Highlights Edit', 
+                thumbnail: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                video: 'https://www.youtube.com/watch?v=JP9CZ8Vmlnw'
+            },
+            {
+                category: 'documentary', 
+                title: 'Nature Documentary', 
+                thumbnail: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                video: 'https://www.youtube.com/watch?v=LE2v3sUzTH4'
+            },
+            {
+                category: 'documentary', 
+                title: 'Cultural Documentary', 
+                thumbnail: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+                video: 'https://www.youtube.com/watch?v=LE2v3sUzTH4'
+            },
+            {
+                category: 'ads', 
+                title: 'Commercial Ad Campaign', 
+                thumbnail: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+                video: 'https://www.youtube.com/watch?v=owGykVbfgUE'
+            },
+            {
+                category: 'ads', 
+                title: 'Brand Advertisement', 
+                thumbnail: 'https://images.unsplash.com/photo-1557838923-2985c318be48?w=600&h=400&fit=crop',
+                videoPreview: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+                video: 'https://www.youtube.com/watch?v=owGykVbfgUE'
+            }
+        ];
+
+        // Render portfolio items
+        function renderPortfolio(filter = 'all') {
+            const grid = document.getElementById('portfolioGrid');
+            grid.innerHTML = '';
+            
+            const items = filter === 'all' ? portfolioData : portfolioData.filter(item => item.category === filter);
+            
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'portfolio-item';
+                card.onclick = () => window.open(item.video, '_blank');
+                card.innerHTML = `
+                    <img class="video-thumbnail" src="${item.thumbnail}" alt="${item.title}">
+                    <video muted loop playsinline preload="metadata">
+                        <source src="${item.videoPreview}" type="video/mp4">
+                    </video>
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>${item.title}</h3>
+                        <span class="portfolio-tag">${item.category.replace('-', ' ')}</span>
+                    </div>
+                `;
+                
+                // Add hover event to play video
+                const videoElement = card.querySelector('video');
+                card.addEventListener('mouseenter', () => {
+                    videoElement.play().catch(e => console.log('Video play failed:', e));
+                });
+                card.addEventListener('mouseleave', () => {
+                    videoElement.pause();
+                    videoElement.currentTime = 0;
+                });
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderPortfolio(this.dataset.filter);
+            });
+        });
+
+        // Initialize portfolio
+        renderPortfolio();
+    </script>
+</body>
+</html>
